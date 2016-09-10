@@ -5,15 +5,22 @@ module FSharpFUT =
     type FSharpFUT() = 
         member this.X = "F#"
 
+    type Position = GK | RB | CB | LB | RWB | LWB | CDM | CM | CAM | RM | LM | RW | LW | CF | RF | LF | ST
+
     type PlayerInfo = {
+        Position: Position;
         Country: string;
         League: string;
         Team: string
     }
 
+    type ManagerInfo = {
+        League: string;
+        Country: string;
+    }
+
     type LinkQuality = Bad=0 | Okay=1 | Good=2 | Perfect=3
 
-    type Position = GK | RB | CB | LB | RWB | LWB | CDM | CM | CAM | RM | LM | RW | LW | CF | RF | LF | ST
 
     let ComputeLink (player1 : PlayerInfo, player2: PlayerInfo) = 
         match (player1, player2) with
@@ -60,7 +67,7 @@ module FSharpFUT =
         | (ST, RF) | (ST, LF) -> LinkQuality.Okay
         | _ -> LinkQuality.Bad
 
-    let ComputeChemistry (links:float, pos:LinkQuality) =
+    let ComputeChemistryNumber (links:float, pos:LinkQuality) =
         match (links, pos) with
         | (_, LinkQuality.Bad) when links < 0.3 -> 0
         | (_, LinkQuality.Bad) when links < float 1 -> 1
@@ -82,6 +89,31 @@ module FSharpFUT =
 
     let GetLinks (player1:PlayerInfo, players:PlayerInfo[]) =
          Seq.map (fun player -> ComputeLink(player1, player) |> float) players |> Seq.average
+
+
+    let GetLinkPosChemistry (player1:PlayerInfo, pos:Position, players:PlayerInfo[]) = 
+        let links = GetLinks(player1, players)
+        let position = ComputePositionQuality(player1.Position, pos)
+        ComputeChemistryNumber(links, position)
+
+    let CapChemistry (x:int) = 
+        match x with
+            | _ when x > 10 -> 10
+            | _ -> x
+    
+    let GetChemistry(player1:PlayerInfo, pos:Position, players:PlayerInfo[], manager:ManagerInfo, Loyalty:bool) =
+        match Loyalty with
+        | true ->
+            match (player1, manager) with
+            | (_,_) when player1.Country = manager.Country || player1.League = manager.League 
+                -> 2 + GetLinkPosChemistry (player1, pos, players) |> CapChemistry
+            | (_,_) -> 1 + GetLinkPosChemistry (player1, pos, players) |> CapChemistry
+        | false ->
+            match (player1, manager) with
+            | (_,_) when player1.Country = manager.Country || player1.League = manager.League 
+                -> 1 + GetLinkPosChemistry (player1, pos, players) |> CapChemistry
+            | (_,_) -> GetLinkPosChemistry (player1, pos, players) |> CapChemistry
+            
             
 
     
