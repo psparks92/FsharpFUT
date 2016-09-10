@@ -25,7 +25,7 @@ let test2Chem = GetChemistry (player153079, CF, [|MarcoReus|], Low)
 let testSquadChemistry = GetSquadChemistry testSquad1
 
 let testSquad2 = {
-    Formation = formation3142;
+    Formation = formation3421;
     Manager = Low;
     Players = [ BerndLeno;  //GK
                 RonaldoAparecidoRodrigues;  //LCB

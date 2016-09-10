@@ -34,7 +34,7 @@ module FSharpFUT =
     type ChemistryPosition = {
         Position: Position
         Name: string;
-        Links: int[];
+        Links: string[];
         Index: int
     }
     
@@ -53,6 +53,11 @@ module FSharpFUT =
         Manager: ManagerInfo;
         Players: PlayerInfo list;
 
+    }
+    
+    type SquadWithChemistry = {
+        Squad: Squad;
+        Chemistry: int[]
     }
 
     type LinkQuality = Bad=0 | Okay=1 | Good=2 | Perfect=3
@@ -150,19 +155,30 @@ module FSharpFUT =
                 -> 1 + GetLinkPosChemistry (player1, pos, players) |> CapChemistry
             | (_,_) -> GetLinkPosChemistry (player1, pos, players) |> CapChemistry
 
-    let GetLinksFromFormation (origin: int, links: int list) =
-        Seq.filter (fun x -> x = origin) links
 
     
+    let GetLinkedIndices (pos:ChemistryPosition, formation:Formation) =
+        formation.Positions |> Seq.filter (fun position -> Seq.exists(fun x -> position.Name = x) pos.Links)  
 
-    let GetLinkedPlayers (pos:ChemistryPosition, players:PlayerInfo list) =
-        Seq.map (fun index -> players.[index]) pos.Links |> Seq.toArray
+    let GetLinkedPlayers (pos:ChemistryPosition, formation:Formation, players: PlayerInfo list) =
+        Seq.filter (fun player -> 
+            let index = Seq.findIndex(fun sPlayer -> player = sPlayer) players
+            let positions = GetLinkedIndices(pos, formation)
+            Seq.exists(fun position -> position.Index = index) positions) players |> Seq.toArray
+
+    // let GetLinkedPlayers (pos:ChemistryPosition, players:PlayerInfo list) =
+    //     Seq.map (fun index -> players.[index]) pos.Links |> Seq.toArray
     
-    let GetSquadChemistry (squad:Squad) = 
-        squad.Players |> Seq.map (fun player ->
-            let index = Seq.findIndex(fun sPlayer -> player = sPlayer) squad.Players 
-            let position = squad.Formation.Positions.[index]
-            let links = position.Links
-            let playersLinked = GetLinkedPlayers (position, squad.Players)
-            GetChemistry(player, position.Position, playersLinked, squad.Manager)) |> Seq.toArray
+    let ComputeSquadChemistry (squad:Squad) = 
+        match squad with
+        | _ when squad.Players.Length <> 11 -> null
+        | _  -> squad.Players |> Seq.map (fun player ->
+                let index = Seq.findIndex(fun sPlayer -> player = sPlayer) squad.Players 
+                let position = squad.Formation.Positions.[index]
+                let links = position.Links
+                let playersLinked = GetLinkedPlayers (position, squad.Formation, squad.Players)
+                GetChemistry(player, position.Position, playersLinked, squad.Manager)) |> Seq.toArray
  
+    let GetSquadChemistry (squad:Squad) = 
+        let chemistry = ComputeSquadChemistry squad
+        {Squad = squad; Chemistry = chemistry}

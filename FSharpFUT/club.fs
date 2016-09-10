@@ -665,7 +665,7 @@ module TestClub =
 
 
 
-        
+
         let RobertLewandowski = {defaultPlayer with Position = ST; Country = "Poland"; League = "Bundesliga"; Team = "Bayern"}
         let MarcoReus = {defaultPlayer with Position = LW; Country = "Germany"; League = "Bundesliga"; Team = "Dortmund"}
         let PhillipLahm = {defaultPlayer with Position = RB; Country = "Germany"; League = "Bundesliga"; Team = "Bayern"}
@@ -678,7 +678,7 @@ module TestClub =
 
 
         let testSquad1 = {
-            Formation = formation3142;
+            Formation = formation3421;
             Manager = Mourinho;
             Players = [player111199; player112316; player120533; player141100; player146530; player146530; player153079; player167532; player146530; EdenHazard; RomeluLukaku]
         }
