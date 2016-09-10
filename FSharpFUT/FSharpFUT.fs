@@ -2,6 +2,7 @@ namespace FSharpFUT
 
 module FSharpFUT =
 
+    open Data
     type FSharpFUT() = 
         member this.X = "F#"
 
