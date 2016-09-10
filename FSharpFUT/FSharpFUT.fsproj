@@ -42,7 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FSharpFUT.fs" />
+    <Compile Include="formations.fs" />
     <Compile Include="club.fs" />
+    <Compile Include="MyClub.fs" />
     <None Include="Script.fsx" />
   </ItemGroup>
   <PropertyGroup>

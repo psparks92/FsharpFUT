@@ -2,7 +2,7 @@ namespace FSharpFUT
 
 module FSharpFUT =
 
-    open Data
+    open Microsoft.FSharp.Data
     type FSharpFUT() = 
         member this.X = "F#"
 
@@ -12,12 +12,47 @@ module FSharpFUT =
         Position: Position;
         Country: string;
         League: string;
-        Team: string
+        Team: string;
+        Loyalty: bool;
+        Name:string
+    }
+    let defaultPlayer = {
+        Position = GK;
+        Country = "";
+        League = "";
+        Team = "";
+        Loyalty = false;
+        Name = "default"
     }
 
+    
     type ManagerInfo = {
         League: string;
         Country: string;
+    }
+
+    type ChemistryPosition = {
+        Position: Position
+        Name: string;
+        Links: int[];
+        Index: int
+    }
+    
+    type PlayerPosition = {
+        Player: PlayerInfo;
+        Position: ChemistryPosition
+    }
+
+    type Formation = {
+        Name: string;
+        Positions: ChemistryPosition list
+    }
+
+    type Squad = {
+        Formation: Formation;
+        Manager: ManagerInfo;
+        Players: PlayerInfo list;
+
     }
 
     type LinkQuality = Bad=0 | Okay=1 | Good=2 | Perfect=3
@@ -102,8 +137,8 @@ module FSharpFUT =
             | _ when x > 10 -> 10
             | _ -> x
     
-    let GetChemistry(player1:PlayerInfo, pos:Position, players:PlayerInfo[], manager:ManagerInfo, Loyalty:bool) =
-        match Loyalty with
+    let GetChemistry(player1:PlayerInfo, pos:Position, players:PlayerInfo[], manager:ManagerInfo) =
+        match player1.Loyalty with
         | true ->
             match (player1, manager) with
             | (_,_) when player1.Country = manager.Country || player1.League = manager.League 
@@ -114,7 +149,20 @@ module FSharpFUT =
             | (_,_) when player1.Country = manager.Country || player1.League = manager.League 
                 -> 1 + GetLinkPosChemistry (player1, pos, players) |> CapChemistry
             | (_,_) -> GetLinkPosChemistry (player1, pos, players) |> CapChemistry
-            
-            
+
+    let GetLinksFromFormation (origin: int, links: int list) =
+        Seq.filter (fun x -> x = origin) links
 
     
+
+    let GetLinkedPlayers (pos:ChemistryPosition, players:PlayerInfo list) =
+        Seq.map (fun index -> players.[index]) pos.Links |> Seq.toArray
+    
+    let GetSquadChemistry (squad:Squad) = 
+        squad.Players |> Seq.map (fun player ->
+            let index = Seq.findIndex(fun sPlayer -> player = sPlayer) squad.Players 
+            let position = squad.Formation.Positions.[index]
+            let links = position.Links
+            let playersLinked = GetLinkedPlayers (position, squad.Players)
+            GetChemistry(player, position.Position, playersLinked, squad.Manager)) |> Seq.toArray
+ 
