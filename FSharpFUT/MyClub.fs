@@ -18,7 +18,7 @@ module MyClub =
                 Team =  "VfL Wolfsburg";
                 Position = LM;
             }
-        let JérômeBoateng = {
+        let JeromeBoateng = {
             defaultPlayer with
                 League = "Bundesliga";
                 Country = "Germany";

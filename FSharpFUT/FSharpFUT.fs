@@ -74,7 +74,7 @@ module FSharpFUT =
 
     let ComputePositionQuality (normalPos:Position, currentPos:Position) =
         match (normalPos, currentPos) with
-        | _ when normalPos = currentPos -> LinkQuality.Perfect
+        | (a, b) when a = b -> LinkQuality.Perfect
         | (RB, CB) | (RB, LB) | (RB, RM) -> LinkQuality.Okay
         | (RB, RWB) -> LinkQuality.Good
         | (LB, CB) | (LB, RB) | (LB, LM) -> LinkQuality.Okay
@@ -106,7 +106,7 @@ module FSharpFUT =
         | (LF, LM) | (LF, CF) | (LF, RF) | (LF, ST) -> LinkQuality.Okay
         | (ST, CF) -> LinkQuality.Good
         | (ST, RF) | (ST, LF) -> LinkQuality.Okay
-        | _ -> LinkQuality.Bad
+        | (a,b) ->   LinkQuality.Bad
 
     let ComputeChemistryNumber (links:float, pos:LinkQuality) =
         match (links, pos) with
@@ -158,7 +158,7 @@ module FSharpFUT =
 
     
     let GetLinkedIndices (pos:ChemistryPosition, formation:Formation) =
-        formation.Positions |> Seq.filter (fun position -> Seq.exists(fun x -> position.Name = x) pos.Links)  
+        formation.Positions |> Seq.filter (fun position -> Seq.exists(fun x -> position.Name = x) pos.Links) 
 
     let GetLinkedPlayers (pos:ChemistryPosition, formation:Formation, players: PlayerInfo list) =
         Seq.filter (fun player -> 
@@ -174,7 +174,8 @@ module FSharpFUT =
         | _ when squad.Players.Length <> 11 -> null
         | _  -> squad.Players |> Seq.map (fun player ->
                 let index = Seq.findIndex(fun sPlayer -> player = sPlayer) squad.Players 
-                let position = squad.Formation.Positions.[index]
+                let posIndex = Seq.findIndex(fun position -> index = position.Index) squad.Formation.Positions
+                let position = squad.Formation.Positions.[posIndex]
                 let links = position.Links
                 let playersLinked = GetLinkedPlayers (position, squad.Formation, squad.Players)
                 GetChemistry(player, position.Position, playersLinked, squad.Manager)) |> Seq.toArray
