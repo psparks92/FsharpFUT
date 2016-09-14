@@ -46,6 +46,7 @@
     <Compile Include="formations.fs" />
     <Compile Include="club.fs" />
     <Compile Include="MyClub.fs" />
+    <Compile Include="SquadBuilder.fs" />
     <None Include="Test.fsx" />
   </ItemGroup>
   <PropertyGroup>

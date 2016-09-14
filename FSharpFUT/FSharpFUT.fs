@@ -14,7 +14,8 @@ module FSharpFUT =
         League: string;
         Team: string;
         Loyalty: bool;
-        Name:string
+        Name:string;
+        Rating:int;
     }
     let defaultPlayer = {
         Position = GK;
@@ -22,7 +23,8 @@ module FSharpFUT =
         League = "";
         Team = "";
         Loyalty = false;
-        Name = "default"
+        Name = "default";
+        Rating = 0
     }
 
     
@@ -57,7 +59,8 @@ module FSharpFUT =
     
     type SquadWithChemistry = {
         Squad: Squad;
-        Chemistry: int[]
+        Chemistry: int[];
+        TotalScore: int
     }
 
     type LinkQuality = Bad=0 | Okay=1 | Good=2 | Perfect=3
@@ -179,7 +182,25 @@ module FSharpFUT =
                 let links = position.Links
                 let playersLinked = GetLinkedPlayers (position, squad.Formation, squad.Players)
                 GetChemistry(player, position.Position, playersLinked, squad.Manager)) |> Seq.toArray
+
+    let GetTotalSquadChemistry squad =
+        let unboundedSquadChem = ComputeSquadChemistry squad |> Seq.sum 
+        match unboundedSquadChem with 
+            | a when a > 100 -> 100
+            | a -> a
+
+
+
+    let GetAvgPlayerRating squad= 
+        Seq.map (fun player -> player.Rating |> float) squad.Players |> Seq.average |> int
+
+    let GetChemRatingSum squad totalChemistry = 
+        match box squad with
+            | :? Squad -> 
+                let avgRating =  GetAvgPlayerRating squad |> int
+                totalChemistry + avgRating
+            | _ -> 0
  
     let GetSquadChemistry (squad:Squad) = 
         let chemistry = ComputeSquadChemistry squad
-        {Squad = squad; Chemistry = chemistry}
+        {Squad = squad; Chemistry = chemistry; TotalScore = GetChemRatingSum squad (GetTotalSquadChemistry squad)}

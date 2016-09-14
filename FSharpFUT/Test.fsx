@@ -44,6 +44,6 @@ let testSquad2 = {
                 RobertLewandowski] //RF 
 }   
 
-let testSquad2Chemistry = ComputeSquadChemistry testSquad2
+let testSquad2Chemistry = GetSquadChemistry testSquad2
 
 
