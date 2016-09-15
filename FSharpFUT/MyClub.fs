@@ -151,7 +151,7 @@ module MyClub =
                 Team =  "Napoli";
                 Position = CDM;
             }
-        let Danilo LuizdaSilva = {
+        let Danilo = {
             defaultPlayer with
                 League = "Liga BBVA";
                 Country = "Brazil";
