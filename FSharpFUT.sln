@@ -7,6 +7,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpFUT", "FSharpFUT\FSha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSharpFUTService", "FSharpFUTService\FSharpFUTService.csproj", "{F6FFDB16-246E-4529-ADA8-73A1C6A5ADAF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSharpFUTTest", "FSharpFUTTest\FSharpFUTTest.csproj", "{562522B4-F06A-4790-9131-133F2DF7910E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F6FFDB16-246E-4529-ADA8-73A1C6A5ADAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6FFDB16-246E-4529-ADA8-73A1C6A5ADAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6FFDB16-246E-4529-ADA8-73A1C6A5ADAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{562522B4-F06A-4790-9131-133F2DF7910E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{562522B4-F06A-4790-9131-133F2DF7910E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{562522B4-F06A-4790-9131-133F2DF7910E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{562522B4-F06A-4790-9131-133F2DF7910E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
