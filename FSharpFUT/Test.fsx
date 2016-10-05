@@ -2,10 +2,13 @@
 #load "formations.fs"
 #load "club.fs"
 #load "MyClub.fs"
+//#load "../packages/MongoDB.Bson/lib/net45/MongoDB.Bson.dll"
 open FSharpFUT.FSharpFUT
 open FSharpFUT.Formations
 open FSharpFUT.TestClub
 open FSharpFUT.MyClub
+open MongoDB.Bson
+open MongoDB.Driver
 //let RobertMarco = ComputeLink (RobertLewandowski, MarcoReus)
 //let PhillipRobert = ComputeLink (RobertLewandowski, PhillipLahm)
 //let PhillipMarco = ComputeLink (PhillipLahm, MarcoReus)
