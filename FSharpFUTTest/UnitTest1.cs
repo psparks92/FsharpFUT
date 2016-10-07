@@ -44,7 +44,8 @@ namespace FSharpFUTTest
             var results = collection.Find(filter).Project(projection);
             foreach (var record in results.ToEnumerable())
             {
-                var deserialized = BsonSerializer.Deserialize<Player>(record);
+                BsonClassMap.RegisterClassMap(Mappers.playerMapper);
+                Player deserialized = BsonSerializer.Deserialize<Player>(record);
                 Assert.IsNotNull(deserialized);
             }
 

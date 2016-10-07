@@ -8,6 +8,20 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace FSharpFUTService.Models
 {
+    public static class Mappers
+    {
+        public static BsonClassMap playerMapper
+        {
+            get
+            {
+                BsonClassMap map = new BsonClassMap(typeof(Player));
+                map.AutoMap();
+                map.SetIgnoreExtraElements(true);
+                map.MapMember(typeof(Player).GetProperty("id")).SetElementName("id");
+                return map;
+            }
+        }
+    }
     [BsonIgnoreExtraElements]
     public class Headshot
     {
@@ -158,10 +172,9 @@ namespace FSharpFUTService.Models
         public int vision { get; set; }
 
 
-        public BsonClassMap playerMapper = new BsonClassMap(typeof(Player));
 
-           
+
     }
 
-    
+
 }
