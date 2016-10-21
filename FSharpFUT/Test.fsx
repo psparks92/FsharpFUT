@@ -7,8 +7,6 @@ open FSharpFUT.FSharpFUT
 open FSharpFUT.Formations
 open FSharpFUT.TestClub
 open FSharpFUT.MyClub
-open MongoDB.Bson
-open MongoDB.Driver
 //let RobertMarco = ComputeLink (RobertLewandowski, MarcoReus)
 //let PhillipRobert = ComputeLink (RobertLewandowski, PhillipLahm)
 //let PhillipMarco = ComputeLink (PhillipLahm, MarcoReus)
