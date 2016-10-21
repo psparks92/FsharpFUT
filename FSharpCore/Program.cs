@@ -4,7 +4,7 @@ using System.Collections;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 
-namespace WebCore.API
+namespace FSharpFUT.API
 {
     public class Program
     {
