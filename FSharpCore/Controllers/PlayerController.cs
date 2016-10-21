@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+//using System.Linq.Queryable;
 //using FSharpFUTModels;
 
 namespace FSharpFUT.API.Controllers
@@ -21,10 +23,10 @@ namespace FSharpFUT.API.Controllers
         }
 
 
-        [HttpGet]
-        public IEnumerable<Player> GetTest()
+        [HttpGet("{name}", Name = "GetByName")]
+        public IEnumerable<Player> GetByName(string name)
         {
-            return _players;
+            return _players.Where(q => q.Name.Contains(name)).ToList();
         }
     }
     public class Player
