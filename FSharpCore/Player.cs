@@ -5,6 +5,7 @@ using MongoDB.Driver.Builders;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 
 
 namespace FSharpFUT.API
@@ -180,6 +181,9 @@ namespace FSharpFUT.API
 
 public class PlayerDAL 
 {
+    public const string LocalConnection = "mongodb://localhost:27017";
+    public const string RemoteConnection = "mongodb://root:futmon@peterfutdb.com/admin";
+
     
     MongoClient _client;
         MongoServer _server;
@@ -188,7 +192,7 @@ public class PlayerDAL
  
         public PlayerDAL()
         {
-            _client = new MongoClient("mongodb://root:futmon@peterfutdb.com/admin");
+            _client = new MongoClient(LocalConnection);
             _server = _client.GetServer();
             _db = _server.GetDatabase("local");      
             _collection = _db.GetCollection<Player>("players");
@@ -196,7 +200,7 @@ public class PlayerDAL
  
         public List<Player> GetPlayers()
         {
-            var filter = Query<Player>.GT(q => q.skillMoves, 4);
+            var filter = Query<Player>.GTE(q => q.skillMoves, 4);
             var projection = Builders<Player>.Projection.Exclude("_id");
             var results = _collection.FindAs<Player>(filter);
             return results.ToList();
@@ -211,9 +215,9 @@ public class PlayerDAL
                 newname = newname + "[" + first.ToUpper() + first.ToLower() + "]";
                 name = name.Substring(1);
             }
-            var res = Query<Player>.Matches(p=>p.lastName,".*"+newname+".*");
-                //.Or(Query<Player>.Matches(p=>p.firstName,".*"+newname+".*"),
-                 //   Query<Player>.Matches(p=>p.commonName,".*"+newname+".*"));
+            var res = Query.Or(Query<Player>.Matches(p=>p.lastName,".*"+newname+".*"),
+               Query<Player>.Matches(p=>p.firstName,".*"+newname+".*"),
+               Query<Player>.Matches(p=>p.commonName,".*"+newname+".*"));
             return _collection.FindAs<Player>(res).ToList();
         }
  
