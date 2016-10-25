@@ -182,7 +182,7 @@ namespace FSharpFUT.API
 public class PlayerDAL 
 {
     public const string LocalConnection = "mongodb://localhost:27017";
-    public const string RemoteConnection = "mongodb://root:futmon@peterfutdb.com/admin";
+    public const string RemoteConnection = "mongodb://root:futmon@mongo.peterfutdb.com/admin";
 
     
     MongoClient _client;
@@ -192,7 +192,7 @@ public class PlayerDAL
  
         public PlayerDAL()
         {
-            _client = new MongoClient(LocalConnection);
+            _client = new MongoClient(RemoteConnection);
             _server = _client.GetServer();
             _db = _server.GetDatabase("local");      
             _collection = _db.GetCollection<Player>("players");
