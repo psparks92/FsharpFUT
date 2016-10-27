@@ -28,6 +28,7 @@ namespace FSharpFUT.API
         { 
             services.AddTransient<PlayerDAL>();
             services.AddMvc();
+            services.AddRouting();
 	    services.AddCors();
         }
 

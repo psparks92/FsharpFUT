@@ -107,7 +107,7 @@ namespace FSharpFUT.API
         public List<string> specialities { get; set; }
         public string headshotImgUrl { get; set; }
         public string quality { get; set; }
-        public int playerid { get; set; }
+        public string playerid { get; set; }
         public int aggression { get; set; }
         public int freekickaccuracy { get; set; }
         public int acceleration { get; set; }
@@ -173,7 +173,13 @@ namespace FSharpFUT.API
         {
 
             PlayerDAL DAL = new PlayerDAL();
-            return DAL.GetPlayer(name);
+            return DAL.GetPlayers(name);
+        }
+
+        public static Player GetById(string id)
+        {
+            PlayerDAL DAL =new PlayerDAL();
+            return DAL.GetPlayer(id);
         }
 
 
@@ -206,7 +212,7 @@ public class PlayerDAL
             return results.ToList();
         }
  
-        public List<Player> GetPlayer(string name)
+        public List<Player> GetPlayers(string name)
         {
             string newname = "";
             while (name.Length > 0)
@@ -221,7 +227,7 @@ public class PlayerDAL
             return _collection.FindAs<Player>(res).ToList();
         }
  
-        public Player GetPlayer(int id)
+        public Player GetPlayer(string id)
         {
             var res = Query<Player>.EQ(p=>p.playerid,id);
             return _collection.FindOneAs<Player>(res);
@@ -233,14 +239,14 @@ public class PlayerDAL
             return p;
         }
  
-        public void Update(int id,Player p)
+        public void Update(string id,Player p)
         {
             p.playerid = id;
             var res = Query<Player>.EQ(pd => pd.playerid,id);
             var operation = Update<Player>.Replace(p);
             _db.GetCollection<Player>("players").Update(res,operation);
         }
-        public void Remove(int id)
+        public void Remove(string id)
         {
             var res = Query<Player>.EQ(e => e.playerid, id);
             var operation = _db.GetCollection<Player>("players").Remove(res);

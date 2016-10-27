@@ -9,24 +9,16 @@ namespace FSharpFUT.API.Controllers
     [Route("api/[controller]")]
     public class PlayerController : Controller
     {
-        private static List<Player> _players;
+        private static Player _player;
         static PlayerController()
         {
-            _players = new List<Player>();
+            _player = new Player();
         }
 
-        [HttpGet]
-        public IEnumerable<Player> GetAll()
+        [HttpGet("{id}", Name = "GetById")]
+        public Player GetById(string id)
         {
-            
-            return Player.Get();
-        }
-
-
-        [HttpGet("{name}", Name = "GetByName")]
-        public IEnumerable<Player> GetByName(string name)
-        {
-            return Player.GetByName(name);
+            return Player.GetById(id);
         }
     }
 }
