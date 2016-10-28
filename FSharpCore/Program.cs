@@ -36,8 +36,15 @@ namespace FSharpFUT.API
         public void Configure(IApplicationBuilder app)
         {
             app.UseMvcWithDefaultRoute();
-	    app.UseCors(builder => builder.WithOrigins("http://*")
-	    .AllowAnyHeader());
+            // ********************
+            // Setup CORS
+            // ********************
+            var corsBuilder = new CorsPolicyBuilder();
+            corsBuilder.AllowAnyHeader();
+            corsBuilder.AllowAnyMethod();
+            corsBuilder.AllowAnyOrigin(); // For anyone access.
+            //corsBuilder.WithOrigins("http://localhost:56573"); // for a specific url. Don't add a forward slash on the end!
+            corsBuilder.AllowCredentials();
         }
     }
 }
