@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Microsoft.AspNetCore.Cors;
 //using System.Linq.Queryable;
 using FSharpFUT.API;
 
 namespace FSharpFUT.API.Controllers
 {
+    [EnableCors("AllowAll")]
     [Route("api/[controller]")]
     public class PlayersController : Controller
     {
