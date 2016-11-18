@@ -10,18 +10,13 @@ namespace FSharpFUT.API.Controllers
 {
     [EnableCors("AllowAll")]
     [Route("api/[controller]")]
-    public class PlayerController : Controller
+    public class Chemistry : Controller
     {
-        private static Player _player;
-        static PlayerController()
-        {
-            _player = new Player();
-        }
 
-        [HttpGet("{id}", Name = "GetById")]
-        public Player GetById(string id)
+        [HttpGet("{id}")]
+        public int GetRobbenRating(int id)
         {
-            return Player.GetById(id);
+            return FSharpInterop.GetRobbenRating(id);
         }
 
     }
