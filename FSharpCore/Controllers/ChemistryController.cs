@@ -19,6 +19,11 @@ namespace FSharpFUT.API.Controllers
             return FSharpInterop.GetRobbenRating(id);
         }
 
+        [HttpGet("GetLink/{id}/{id2}", Name = "GetLink")]
+        public int GetLink(int id, int id2) 
+        {
+            return FSharpInterop.GetLink(id, id2);   
+        }
     }
 
     

@@ -7,6 +7,27 @@ module FSharpCalc =
 
     type Position = GK | RB | CB | LB | RWB | LWB | CDM | CM | CAM | RM | LM | RW | LW | CF | RF | LF | ST
 
+    let makePosition pos =
+        match pos with 
+        | "GK" -> GK
+        | "RB" -> RB
+        | "CB" -> CB
+        | "LB" -> LB
+        | "RWB" -> RWB
+        | "LWB" -> LWB
+        | "CDM" -> CDM
+        | "CM" -> CM
+        | "CAM" -> CAM
+        | "RM" -> RM
+        | "LM" -> LM
+        | "RW" -> RW
+        | "LW" -> LW
+        | "CF" -> CF
+        | "RF" -> RF
+        | "LF" -> LF
+        | "ST" -> ST
+        | _ -> GK
+
     type PlayerInfo = {
         Position: Position;
         Country: string;

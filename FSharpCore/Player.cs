@@ -181,6 +181,19 @@ namespace FSharpFUT.API
             PlayerDAL DAL =new PlayerDAL();
             return DAL.GetPlayer(id);
         }
+        
+        public static FSharpCalc.FSharpCalc.PlayerInfo GetFSharpPlayerInfo(Player player)
+        {
+            return new FSharpCalc.FSharpCalc.PlayerInfo(
+                FSharpCalc.FSharpCalc.makePosition(player.position),
+                player.nation.name,
+                player.league.name,
+                player.club.name,
+                false,
+                player.firstName + " " + player.lastName,
+                player.rating
+            );
+        }
 
 
 }
@@ -198,7 +211,7 @@ public class PlayerDAL
  
         public PlayerDAL()
         {
-            _client = new MongoClient(RemoteConnection);
+            _client = new MongoClient(LocalConnection);
             _server = _client.GetServer();
             _db = _server.GetDatabase("local");      
             _collection = _db.GetCollection<Player>("players");
