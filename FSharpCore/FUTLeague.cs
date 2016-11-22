@@ -49,7 +49,7 @@ namespace FSharpFUT.API
         public FUTLeagueDAL()
         {
             //this.League = new League();
-            _client = new MongoClient(LocalConnection);
+            _client = new MongoClient(RemoteConnection);
             _server = _client.GetServer();
             _db = _server.GetDatabase("local");      
             _collection = _db.GetCollection<FUTLeague>("players");

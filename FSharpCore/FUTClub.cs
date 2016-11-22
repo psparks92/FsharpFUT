@@ -31,7 +31,7 @@ namespace FSharpFUT.API
 
         public FUTClubDAL()
         {
-            _client = new MongoClient(LocalConnection);
+            _client = new MongoClient(RemoteConnection);
             _server = _client.GetServer();
             _db = _server.GetDatabase("local");      
             _collection = _db.GetCollection<FUTClub>("clubs");
