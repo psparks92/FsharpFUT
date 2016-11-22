@@ -54,6 +54,14 @@ namespace FSharpFUT.API
     }
 
 [BsonIgnoreExtraElements]
+    public class SmallClub
+    {
+        public string abbrName { get; set; }
+        public int clubid { get; set; }
+        public string name { get; set; }
+    }
+
+[BsonIgnoreExtraElements]
     public class ImageUrls2
     {
         public string small { get; set; }
@@ -72,11 +80,26 @@ namespace FSharpFUT.API
     }
 
 [BsonIgnoreExtraElements]
+    public class SmallNation
+    {
+        public string abbrName { get; set; }
+        public int nationid { get; set; }
+        public string name { get; set; }
+    }
+
+[BsonIgnoreExtraElements]
     public class Attribute
     {
         public string name { get; set; }
         public int value { get; set; }
         public List<int> chemistryBonus { get; set; }
+    }
+
+[BsonIgnoreExtraElements]
+    public class SmallAttribute
+    {
+        public string name { get; set; }
+        public int value { get; set; }
     }
 
 [BsonIgnoreExtraElements]
@@ -86,6 +109,36 @@ namespace FSharpFUT.API
         public int leagueid { get; set; }
         public object imgUrl { get; set; }
         public string name { get; set; }
+    }
+[BsonIgnoreExtraElements]
+    public class SmallLeague
+    {
+        public string abbrName { get; set; }
+        public int leagueid { get; set; }
+        public string name { get; set; }
+    }
+
+[BsonIgnoreExtraElements]
+    public class SmallPlayer
+    {
+        public int rating {get; set;}
+        public string color {get; set;}
+        public string quality {get; set;}
+        public int playerid {get; set;}
+        public string commonName {get; set;}
+        public int baseId {get; set;}
+        public SmallClub club {get; set;}
+        public SmallNation nation {get; set;}
+        public int skillMoves {get; set;}
+        public List<SmallAttribute> attributes {get; set;}
+        public string playerType {get; set;}
+        public SmallLeague league {get; set;}
+        public string name {get; set;}
+        public string firstName {get; set;}
+        public int longshots {get; set;}
+        public string lastName {get; set;}
+        public string positionFull {get; set;}
+
     }
 
 [BsonIgnoreExtraElements]
@@ -161,11 +214,11 @@ namespace FSharpFUT.API
         public int balance { get; set; }
         public int vision { get; set; }
 
-        public static List<Player> Get() 
+        public static List<SmallPlayer> Get() 
         {
 
             PlayerDAL DAL = new PlayerDAL();
-            List<Player> players = DAL.GetPlayers();
+            List<SmallPlayer> players = DAL.GetPlayers();
             return players;
         }
 
@@ -218,18 +271,18 @@ public class PlayerDAL
  
         public PlayerDAL()
         {
-            _client = new MongoClient(RemoteConnection);
+            _client = new MongoClient(LocalConnection);
             _server = _client.GetServer();
             _db = _server.GetDatabase("local");      
             _collection = _db.GetCollection<Player>("players");
         }
  
-        public List<Player> GetPlayers()
+        public List<SmallPlayer> GetPlayers()
         {
-            var filter = Query<Player>.GTE(q => q.skillMoves, 4);
-            var projection = Builders<Player>.Projection.Exclude("_id");
-            var results = _collection.FindAs<Player>(filter);
-            return results.ToList();
+            var filter = Query<SmallPlayer>.NE(q => q.playerid, 0);
+            var projection = Builders<SmallPlayer>.Projection.Exclude("_id");
+            var results = _collection.FindAs<SmallPlayer>(filter);
+            return results.ToList().Take(1000).ToList();
         }
 
         public List<Player> GetPlayersFromClub(int clubId)
@@ -239,6 +292,8 @@ public class PlayerDAL
             var results = _collection.FindAs<Player>(filter);
             return results.ToList();
         }
+
+
  
         public List<Player> GetPlayers(string name)
         {

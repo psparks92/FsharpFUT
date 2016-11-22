@@ -18,7 +18,7 @@ namespace FSharpFUT.API.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Player> GetAll()
+        public IEnumerable<SmallPlayer> GetAll()
         {
             
             return Player.Get();
