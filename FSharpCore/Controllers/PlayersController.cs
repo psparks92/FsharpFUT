@@ -30,6 +30,12 @@ namespace FSharpFUT.API.Controllers
         {
                 return Player.GetByName(name);
         }
+
+        [HttpGet("Club/{id}", Name = "GetPlayersFromClub")]
+        public IEnumerable<Player> GetPlayersFromClub(int id) 
+        {
+            return Player.GetFromClub(id);
+        }
         
     }
 }

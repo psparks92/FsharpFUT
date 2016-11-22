@@ -169,6 +169,13 @@ namespace FSharpFUT.API
             return players;
         }
 
+        public static List<Player> GetFromClub(int id)
+        {
+
+            PlayerDAL DAL = new PlayerDAL();
+            return DAL.GetPlayersFromClub(id);
+        }
+
         public static List<Player> GetByName(string name)
         {
 
@@ -211,7 +218,7 @@ public class PlayerDAL
  
         public PlayerDAL()
         {
-            _client = new MongoClient(LocalConnection);
+            _client = new MongoClient(RemoteConnection);
             _server = _client.GetServer();
             _db = _server.GetDatabase("local");      
             _collection = _db.GetCollection<Player>("players");
@@ -220,6 +227,14 @@ public class PlayerDAL
         public List<Player> GetPlayers()
         {
             var filter = Query<Player>.GTE(q => q.skillMoves, 4);
+            var projection = Builders<Player>.Projection.Exclude("_id");
+            var results = _collection.FindAs<Player>(filter);
+            return results.ToList();
+        }
+
+        public List<Player> GetPlayersFromClub(int clubId)
+        {
+            var filter = Query<Player>.EQ(q => q.club.id, clubId);
             var projection = Builders<Player>.Projection.Exclude("_id");
             var results = _collection.FindAs<Player>(filter);
             return results.ToList();
