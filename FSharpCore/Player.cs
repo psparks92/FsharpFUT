@@ -66,7 +66,7 @@ namespace FSharpFUT.API
     {
         public string abbrName { get; set; }
         public ImageUrls2 imageUrls { get; set; }
-        public int id { get; set; }
+        public int nationid { get; set; }
         public object imgUrl { get; set; }
         public string name { get; set; }
     }
@@ -83,7 +83,7 @@ namespace FSharpFUT.API
     public class League
     {
         public string abbrName { get; set; }
-        public int id { get; set; }
+        public int leagueid { get; set; }
         public object imgUrl { get; set; }
         public string name { get; set; }
     }

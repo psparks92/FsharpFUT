@@ -36,6 +36,19 @@ namespace FSharpFUT.API.Controllers
         {
             return Player.GetFromClub(id);
         }
+
+
+        [HttpGet("Nation/{id}", Name = "GetPlayersFromNation")]
+        public IEnumerable<Player> GetPlayersFromNation(int id) 
+        {
+            return new FUTNation(id).GetPlayers();
+        }
+
+        [HttpGet("League/{id}", Name = "GetPlayersFromLeague")]
+        public IEnumerable<Player> GetPlayersFromLeague(int id) 
+        {
+            return new FUTLeague(id).GetPlayers();
+        }
         
     }
 }
