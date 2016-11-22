@@ -48,7 +48,7 @@ namespace FSharpFUT.API
     {
         public string abbrName { get; set; }
         public ImageUrls imageUrls { get; set; }
-        public int id { get; set; }
+        public int clubid { get; set; }
         public object imgUrl { get; set; }
         public string name { get; set; }
     }
@@ -234,7 +234,7 @@ public class PlayerDAL
 
         public List<Player> GetPlayersFromClub(int clubId)
         {
-            var filter = Query<Player>.EQ(q => q.club.id, clubId);
+            var filter = Query<Player>.EQ(q => q.club.clubid, clubId);
             var projection = Builders<Player>.Projection.Exclude("_id");
             var results = _collection.FindAs<Player>(filter);
             return results.ToList();
